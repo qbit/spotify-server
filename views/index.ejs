@@ -76,10 +76,12 @@
     <div class="box">
       <div class="content-wrap">
         <h6>Log in</h6>
-        <input class="form-control" type="text" id="username" autocomplete="on" autofocus="autofocus" placeholder="Username"/>
-        <input class="form-control" type="password" id="password" placeholder="Password"/> 
-        <div id="loginMessage" class="alert alert-danger" style="display: none">Invalid login</div>                            
-        <button id="login" type="button" class="btn btn-success login">Log in</button>
+	<form id="login-form">
+          <input class="form-control" type="text" id="username" name="username" autocomplete="on" autofocus="autofocus" placeholder="Username"/>
+          <input class="form-control" type="password" id="password" name="password" placeholder="Password"/> 
+          <div id="loginMessage" class="alert alert-danger" style="display: none">Invalid login</div>                            
+          <button id="login" type="button" class="btn btn-success login">Log in</button>
+	</form>
       </div>
     </div>
   </div>   
@@ -181,7 +183,7 @@
   <audio id="audioPlayer" autoplay='autoplay'></audio>
 
   <div class="modal fade">
-    <span id="searching_spinner_center" style="position: absolute; display: block; top: 40%; left: 45%;"><img src="/img/ajax-loader.gif"/></span>
+    <span id="searching_spinner_center" style="position: absolute; display: block; top: 40%; left: 45%;">Loading...</span>
   </div>     
 </body>  
 </html>

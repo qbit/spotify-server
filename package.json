@@ -5,21 +5,19 @@
     "start": "node spotify-server.js"
   },
   "dependencies": {
-    "spotify-web": "git://github.com/fuzeman/node-spotify-web.git#feature/ping-pong-fix",
-    "xml2js": "0.4.2",
-    "express": "3.1.1",
-    "ejs": "1.0.0",
+    "body-parser": "^1.15.0",
+    "cookie-parser": "^1.4.1",
+    "ejs": "^2.4.1",
+    "express": "^4.13.4",
+    "express-session": "^1.13.0",
+    "multer": "^1.1.0",
+    "spotify-web": "git://github.com/Rhombulus/node-spotify-web.git",
     "tinycolor": "0.0.1",
-    "express-session": "1.0.2",
-    "cookie-parser": "1.0.1"
-  },
-  "engines" : {
-    "node": "0.10.24",
-    "npm": "1.4.6"
+    "xml2js": "^0.4.16"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/brandtabbott/spotify-server"
+    "url": "https://github.com/qbit/spotify-server"
   },
   "author": "Brandt Abbott <brandtabbott@hotmail.com>",
   "license": "MIT"
