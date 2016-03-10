@@ -1,0 +1,27 @@
+{
+  "name": "spotify-server",
+  "description": "",
+  "main": "spotify-server.js",
+  "authors": [
+    "Brandt Abbott <brandtabbott@hotmail.com>"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/qbit/spotify-server",
+  "moduleType": [
+    "node"
+  ],
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "font-awesome": "fontawesome#^4.5.0",
+    "jquery": "^2.2.1",
+    "handlebars": "^4.0.5",
+    "jquery.cookie": "^1.4.1"
+  }
+}
