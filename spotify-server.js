@@ -38,6 +38,7 @@ var app = express();
 app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, 'public')));
+app.use(express.static(path.join(__dirname, '/bower_components')));
 app.set('view engine', 'ejs');
 app.use(session({ secret: 'keyboard cat loves spotify'}));
 app.use(bodyParser.text({ type: 'text/html' }));
