@@ -1,32 +1,32 @@
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" 
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN"
   "http://www.w3.org/TR/html4/strict.dtd">
 <html>
 
-  <head>  
+  <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 
-    <!-- Boostrap CSS -->  
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet"> 
+    <!-- Boostrap CSS -->
+    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Spotify Server CSS -->
-    <link href="/css/spotify-client.css" rel="stylesheet"> 
+    <link href="/css/spotify-client.css" rel="stylesheet">
 
     <!-- Jquery -->
-    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    <script src="/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap -->
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>            
+    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
 
     <!-- Handlebars -->
-    <script src="http://cdnjs.cloudflare.com/ajax/libs/handlebars.js/1.3.0/handlebars.js"></script>   
+    <script src="/handlebars/handlebars.min.js"></script>
 
     <!-- Spotify Server JS -->
-    <script src="/js/spotify-client.js"></script> 
+    <script src="/js/spotify-client.js"></script>
 
     <!-- Jquery Cookie -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.0/jquery.cookie.min.js"></script>
+    <script src="/jquery.cookie/jquery.cookie.js"></script>
 
     <title>Spotify Server</title>
   </head>
@@ -34,16 +34,16 @@
  <body class="spotify-server">
 
   <nav class="navbar navbar-default" role="navigation">
-    <div id="nav" class="container-fluid" style="display: none"> 
+    <div id="nav" class="container-fluid" style="display: none">
       <div class="navbar-header">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
           <span class="sr-only">Toggle navigation</span>
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
-          <span class="icon-bar"></span>      
+          <span class="icon-bar"></span>
         </button>
         <a class="navbar-brand" href="/"><img src="/img/Spotify-US.png" width="40px" height="40px"/></a>
-      </div>     
+      </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <input class="search hidden-xs" type="text" data-toggle="popover" data-placement="bottom" data-content="Search Tracks"/>
@@ -53,21 +53,21 @@
             <a id="playlists-link" href="#"><span class="glyphicon glyphicon glyphicon-th-list" data-toggle="tooltip" data-placement="bottom" title="Playlists"></span></a>
           </li>
           <li>
-            <a id="nowPlaying-link" href="#"><span class="glyphicon glyphicon glyphicon-play" data-toggle="tooltip" data-placement="bottom" title="Now Playing"></span></a>        
+            <a id="nowPlaying-link" href="#"><span class="glyphicon glyphicon glyphicon-play" data-toggle="tooltip" data-placement="bottom" title="Now Playing"></span></a>
           </li>
           <li class="dropdown">
             <a id="settings-link" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon glyphicon-cog"></span></a>
             <ul class="dropdown-menu">
               <li role="presentation" class="dropdown-header">Options</li>
               <li><a href="/spotify-server/logout">Logout</a></li>
-            </ul>  
+            </ul>
           </li>
         </ul>
       </div>
     </div>
   </nav>
 
-  <div class="content">     
+  <div class="content">
   </div>
 
   <div class="login-wrapper container-fluid" style="display: none">
@@ -78,17 +78,17 @@
         <h6>Log in</h6>
 	<form id="login-form">
           <input class="form-control" type="text" id="username" name="username" autocomplete="on" autofocus="autofocus" placeholder="Username"/>
-          <input class="form-control" type="password" id="password" name="password" placeholder="Password"/> 
-          <div id="loginMessage" class="alert alert-danger" style="display: none">Invalid login</div>                            
+          <input class="form-control" type="password" id="password" name="password" placeholder="Password"/>
+          <div id="loginMessage" class="alert alert-danger" style="display: none">Invalid login</div>
           <button id="login" type="button" class="btn btn-success login">Log in</button>
 	</form>
       </div>
     </div>
-  </div>   
+  </div>
 
   <script id="nav" type="text/x-handlebars-template">
 
-  </script>  
+  </script>
 
   <script id="playlists" type="text/x-handlebars-template">
   <div class="playlists">
@@ -133,7 +133,7 @@
   <script id="currentTrack" type="text/x-handlebars-template">
     <div class="col-md-1"></div>
     <div class="col-md-4" id="albumArt"></div>
-    <div class="col-md-5">  
+    <div class="col-md-5">
       {{#if name}}
         <div class="album-name">{{name}}</div>
         <div class="song-artist"><span>by</span> {{artist.0.name}}</div>
@@ -141,17 +141,17 @@
       {{/if}}
       <br/>
       <span id="current-time"></span>
-      <div class="progress progress-striped active">        
+      <div class="progress progress-striped active">
         <div id="progress-bar" class="progress-bar progress-bar-success" style="width: 0%">
         </div>
-      </div>  
+      </div>
       <span id="duration"></span>
       <br style="clear: both"/>
       <div class="audioControlsWrapper" style="text-align: center">
         <span id="previousTrack" class="glyphicon glyphicon glyphicon-fast-backward"></span>
         <span id="playAudio" class="glyphicon glyphicon glyphicon-play"></span>
-        <span id="pauseAudio" class="glyphicon glyphicon glyphicon-pause"></span>      
-        <span id="nextTrack" class="glyphicon glyphicon glyphicon-fast-forward"></span>                  
+        <span id="pauseAudio" class="glyphicon glyphicon glyphicon-pause"></span>
+        <span id="nextTrack" class="glyphicon glyphicon glyphicon-fast-forward"></span>
       </div>
     </div>
   </script>
@@ -160,7 +160,7 @@
     <img src="{{thumbnail_url}}" witdh="300px" height="300px"></img>
   </script>
 
-  <script id="searchResults" type="text/x-handlebars-template">             
+  <script id="searchResults" type="text/x-handlebars-template">
     <div class="searchResults container-fluid">
       {{#if tracks}}
       <div class="header">Tracks</div>
@@ -169,8 +169,8 @@
             {{#each tracks}}
             {{#if data.oembed.thumbnail_url}}
             <li>
-              <span><a href="#" class="enqueueTrack" id="{{data.itemGID}}"><img class="enqueueTrack" id="{{data.itemGID}}" src="{{data.oembed.thumbnail_url}}" width="150px" height="150px"/><span>{{data.oembed.title}}</span></a></span>              
-            </li>          
+              <span><a href="#" class="enqueueTrack" id="{{data.itemGID}}"><img class="enqueueTrack" id="{{data.itemGID}}" src="{{data.oembed.thumbnail_url}}" width="150px" height="150px"/><span>{{data.oembed.title}}</span></a></span>
+            </li>
             {{/if}}
             {{/each}}
           </ul>
@@ -184,6 +184,6 @@
 
   <div class="modal fade">
     <span id="searching_spinner_center" style="position: absolute; display: block; top: 40%; left: 45%;">Loading...</span>
-  </div>     
-</body>  
+  </div>
+</body>
 </html>
