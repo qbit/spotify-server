@@ -168,6 +168,6 @@ app.get('/:trackId.mp3', function(req, res){
 });
 
 var server = http.createServer(app);
-server.listen(app.get('port'), function(){
+server.listen(app.get('port'), '127.0.0.1', function(){
     debug('Listening on port',app.get('port'));
 });
