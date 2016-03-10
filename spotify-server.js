@@ -99,12 +99,11 @@ app.get('/spotify-server/playlists', function(req, res){
 
 //Retrieve tracks for a given PlayList
 app.get('/spotify-server/playlist/:playlistid', function(req, res){
-    var playlistid = req.params.playlistid;
-    var uri = 'spotify:user:'+req.session.username+':playlist:'+playlistid;
-    debug("/playlist/%s", playlistid);
+    var playlistID = req.params.playlistid;
+    debug("/playlist/%s", playlistID);
     var o = getLogin(req);
     debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
-    spotifyClient.newInstance(o.username, o.password).getTracksByPlayListURI(uri)
+    spotifyClient.newInstance(o.username, o.password).getTracksByPlayListURI(playlistID)
 	.on('tracksReady', function(tracks){
 	    res.send({tracks: tracks});
 	})
