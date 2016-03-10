@@ -78,7 +78,6 @@ $(document).ready(function(){
 		dataType: "json",
 		url: '/spotify-server/track/'+id,
 		beforeSend: function() {
-		    $('.modal').modal('show');
 		    $('#loading').addClass('fa-spin');
 		}
 	    }).done(function(data){
@@ -124,7 +123,6 @@ $(document).ready(function(){
 	    dataType: "json",
 	    url: '/spotify-server/playlists',
 	    beforeSend: function() {
-		$('.modal').modal('show');
 		$('#loading').addClass('fa-spin');
 	    }
 	}).done(function(data){
@@ -246,32 +244,12 @@ $(document).ready(function(){
 		}
 	    }
 	});
-	/*$.post({
-	  cache: false,
-	  dataType: "json",
-	  url: '/spotify-server/login',
-	  beforeSend: function() {
-	  $('.modal').modal('show');
-	  }
-	  }).done(function(data){
-	  if(data.success){
-	  $.cookie('username', $('#username').val());
-	  $.cookie('password', $('#password').val());
-	  $('#nav').show();
-	  $('.login-wrapper').hide();
-	  getPlayLists();
-	  }
-	  else{
-	  $('#loginMessage').show();
-	  $('.modal').modal('hide');
-	  }
-	  })*/;
     });
 
     //Handler for play
     $('#audioPlayer').on('canplay', function(){
 	$('#audioPlayer').get(0).play();
-	$('.modal').modal('hide');
+	$('#loading').removeClass('fa-spin');
     });
 
     //Handler for audio player progress
