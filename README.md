@@ -37,15 +37,9 @@ Once everything installs correctly:
 
     $ node spotify-server.js
 
-From your XboxOne goto URL:
+Open this URL:
 
-    http://your-server-ip:3000
-
-Caveats
--------
-
-* Debian: Requires that you 'apt-get remove gyp' for complete installation
-* OSX: Requires Xcode (now available for free in the App Store)
+    http://localhost:3000
 
 License
 -------
