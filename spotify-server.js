@@ -6,22 +6,43 @@ var express = require('express'),
     ejs = require('ejs'),
     path = require('path'),
     spotifyClient = require('./lib/client'),
-    color = require('tinycolor');
+    debug = require('debug')('spotify-server');
 
 //Don't stop this server if an exception goes uncaught
 process.on('uncaughtException', function (err) {
-    console.error((err.stack+'').red.bold);
-    console.error('Node trying not to exit...'.red.bold);
-});     
+    console.error((err.stack+''));
+    console.error('Node trying not to exit...');
+});
+
+function pP(a) {
+    return a.replace(/./g, "*");
+}
+
+function getLogin(req) {
+    var o = {};
+    if (req.session && req.session.username) {
+	debug("found login in session");
+	o.username = req.session.username;
+	o.password = req.session.password;
+    } else {
+	if (req.cookies.username) {
+	    debug("found login in cookie");
+	    o.username = req.cookies.username;
+	    o.password = req.cookies.password;
+	}
+    }
+    return o;
+}
 
 var app = express();
 app.set('port', 3000);
 app.set('views', __dirname + '/views');
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'ejs');
-app.use(session({ secret: 'keyboard cat loves spotify', cookie: { maxAge: 60000 }}));
+app.use(session({ secret: 'keyboard cat loves spotify'}));
 app.use(bodyParser.text({ type: 'text/html' }));
-app.use(bodyParser.urlencoded({ extended: true })); 
+app.use(bodyParser.urlencoded({ extended: true }));
+app.use(cookieParser());
 
 //Index
 app.get('/', function(req, res){
@@ -63,7 +84,10 @@ app.post('/spotify-server/login', function(req, res, next){
 
 //Retrieve PlayLists
 app.get('/spotify-server/playlists', function(req, res){
-    spotifyClient.newInstance(req.session.username,req.session.password).getPlayLists()
+    debug("/playlists");
+    var o = getLogin(req);
+    debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
+    spotifyClient.newInstance(o.username, o.password).getPlayLists()
 	.on('playListsReady', function(playlists){
 	    res.send({playlists: playlists});
 	})
@@ -76,21 +100,25 @@ app.get('/spotify-server/playlists', function(req, res){
 app.get('/spotify-server/playlist/:playlistid', function(req, res){
     var playlistid = req.params.playlistid;
     var uri = 'spotify:user:'+req.session.username+':playlist:'+playlistid;
-
-    spotifyClient.newInstance(req.session.username,req.session.password).getTracksByPlayListURI(uri)
+    debug("/playlist/%s", playlistid);
+    var o = getLogin(req);
+    debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
+    spotifyClient.newInstance(o.username, o.password).getTracksByPlayListURI(uri)
 	.on('tracksReady', function(tracks){
 	    res.send({tracks: tracks});
 	})
 	.on('error', function(err){
 	    res.send({error: err});
-	}); 
+	});
 });
 
 //Retrieve a single track
 app.get('/spotify-server/track/:trackURI', function(req, res){
     var uri = req.params.trackURI;
-
-    spotifyClient.newInstance(req.session.username,req.session.password).getTrackByTrackURI(uri)
+    debug("/track/%s", uri);
+    var o = getLogin(req);
+    debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
+    spotifyClient.newInstance(o.username, o.password).getTrackByTrackURI(uri)
 	.on('trackReady', function(track){
 	    res.send(track);
 	})
@@ -102,8 +130,10 @@ app.get('/spotify-server/track/:trackURI', function(req, res){
 //Retreive album art for a given track
 app.get('/spotify-server/album-art/:trackURI', function(req, res){
     var trackURI = req.params.trackURI;
-
-    spotifyClient.newInstance(req.session.username,req.session.password).getAlbumArtByTrackURI(trackURI)
+    debug("/album-art/%s", trackURI);
+    var o = getLogin(req);
+    debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
+    spotifyClient.newInstance(o.username, o.password).getAlbumArtByTrackURI(trackURI)
 	.on('albumArtReady'+trackURI, function(data){
 	    res.send(data);
 	})
@@ -115,7 +145,10 @@ app.get('/spotify-server/album-art/:trackURI', function(req, res){
 //Search (tracks only right now)
 app.get('/spotify-server/search/:query', function(req,res){
     var query = req.params.query;
-    spotifyClient.newInstance(req.session.username,req.session.password).search(query)
+    debug("/search/%s", query);
+    var o = getLogin(req);
+    debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
+    spotifyClient.newInstance(o.username, o.password).search(query)
 	.on('searchResultsReady', function(data){
 	    res.send(data);
 	})
@@ -127,12 +160,14 @@ app.get('/spotify-server/search/:query', function(req,res){
 //Play a track
 app.get('/:trackId.mp3', function(req, res){
     var trackURI = req.params.trackId;
-
+    debug("/%s", trackURI);
+    var o = getLogin(req);
+    debug("SID: %s, User: %s, Pass: %s", req.session.id, o.username, pP(o.password));
     //Just pass the response here because we need to stream to it
-    spotifyClient.newInstance(req.session.username,req.session.password).playTrackByURI(trackURI, res); 
+    spotifyClient.newInstance(o.username,o.password).playTrackByURI(trackURI, res);
 });
 
 var server = http.createServer(app);
 server.listen(app.get('port'), function(){
-    console.log('Listening on port',app.get('port'));
+    debug('Listening on port',app.get('port'));
 });
