@@ -27,7 +27,7 @@ $(document).ready(function(){
 	data: $('#login-form').serialize(),
 	url: '/spotify-server/login',
 	beforeSend: function() {
-	    $('.modal').modal('show');
+	    $('#loading').addClass('fa-spin');
 	}
     }).done(function(data){
 	if(data.success){
@@ -37,7 +37,7 @@ $(document).ready(function(){
 	}
 	else{
 	    $('.login-wrapper').show();
-	    $('.modal').modal('hide');
+	    $('#loading').removeClass('fa-spin');
 	}
     });
 
@@ -79,6 +79,7 @@ $(document).ready(function(){
 		url: '/spotify-server/track/'+id,
 		beforeSend: function() {
 		    $('.modal').modal('show');
+		    $('#loading').addClass('fa-spin');
 		}
 	    }).done(function(data){
 		if(data.error){
@@ -111,7 +112,7 @@ $(document).ready(function(){
 		    loadTrack();
 		}
 
-		$('.modal').modal('hide');
+		$('#loading').removeClass('fa-spin');
 	    });
 	}
     });
@@ -124,6 +125,7 @@ $(document).ready(function(){
 	    url: '/spotify-server/playlists',
 	    beforeSend: function() {
 		$('.modal').modal('show');
+		$('#loading').addClass('fa-spin');
 	    }
 	}).done(function(data){
 	    if(data.error){
@@ -134,7 +136,7 @@ $(document).ready(function(){
 	    data.playlists.sort(sortByAttributeNameComparitor)
 	    renderHandlebarsTemplate('playlists', data);
 	    playlists = data;
-	    $('.modal').modal('hide');
+	    $('#loading').removeClass('fa-spin');
 	});
     }
 
@@ -143,9 +145,9 @@ $(document).ready(function(){
 	$.ajax({
 	    cache: false,
 	    dataType: "json",
-	    url: '/spotify-server/playlist/'+uri.split(':')[4],
+	    url: '/spotify-server/playlist/'+uri,
 	    beforeSend: function() {
-		$('.modal').modal('show');
+		$('#loading').addClass('fa-spin');
 	    }
 	}).done(function(data){
 	    if(data.error){
@@ -159,6 +161,7 @@ $(document).ready(function(){
 	    tracks = data;
 	    currentTrack = 0;
 	    loadTrack();
+	    $('#loading').removeClass('fa-spin');
 	});
     }
 
@@ -174,7 +177,7 @@ $(document).ready(function(){
 
     //Play next track
     loadTrack = function() {
-	$('.modal').modal('show');
+	$('#loading').addClass('fa-spin');
 
 	if(currentTrack+1 > tracks.tracks.length)
 	    currentTrack = 0;
@@ -186,6 +189,8 @@ $(document).ready(function(){
 	renderAlbumArt(tracks.tracks[currentTrack].trackURI);
 	$('#audioPlayer').attr('src','/'+tracks.tracks[currentTrack].trackURI+'.mp3');
 	$('#audioPlayer').get(0).load();
+	
+	$('#loading').removeClass('fa-spin');
     }
 
     highlighTrackRow = function(trackURI){
@@ -238,7 +243,6 @@ $(document).ready(function(){
 		}
 		else{
 		    $('#loginMessage').show();
-		    $('.modal').modal('hide');
 		}
 	    }
 	});
@@ -321,7 +325,7 @@ $(document).ready(function(){
 	renderAlbumArt(tracks.tracks[currentTrack].trackURI);
 	highlighTrackRow(tracks.tracks[currentTrack].trackURI);
     });
-    $('.glyphicon-play').mouseover(function(){
+    $('.fa-play').mouseover(function(){
 	$(this).tooltip('show');
     });
 
@@ -341,7 +345,8 @@ $(document).ready(function(){
 		dataType: "json",
 		url: '/spotify-server/search/'+self.val(),
 		beforeSend: function() {
-		    $('.modal').modal('show');
+		    $('#loading').attr('title', 'Searching...');
+		    $('#loading').addClass('fa-spin');
 		}
 	    }).done(function(data){
 		if(data.error){
@@ -349,8 +354,8 @@ $(document).ready(function(){
 		    return;
 		}
 
-		renderHandlebarsTemplate('searchResults', data);
-		$('.modal').modal('hide');
+		renderHandlebarsTemplate('searchResults', data); 
+		$('#loading').removeClass('fa-spin');
 	    });
 	}
     });

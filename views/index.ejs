@@ -8,16 +8,18 @@
     <META HTTP-EQUIV="PRAGMA" CONTENT="NO-CACHE">
 
     <!-- Boostrap CSS -->
-    <link href="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/bootstrap/dist/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Spotify Server CSS -->
     <link href="/css/spotify-client.css" rel="stylesheet">
+
+    <link href="/font-awesome/css/font-awesome.min.css" rel="stylesheet">
 
     <!-- Jquery -->
     <script src="/jquery/dist/jquery.min.js"></script>
 
     <!-- Bootstrap -->
-    <script src="http://netdna.bootstrapcdn.com/bootstrap/3.1.1/js/bootstrap.min.js"></script>
+    <script src="/bootstrap/dist/js/bootstrap.min.js"></script>
 
     <!-- Handlebars -->
     <script src="/handlebars/handlebars.min.js"></script>
@@ -42,21 +44,24 @@
           <span class="icon-bar"></span>
           <span class="icon-bar"></span>
         </button>
-        <a class="navbar-brand" href="/"><img src="/img/Spotify-US.png" width="40px" height="40px"/></a>
+        <a class="navbar-brand" id="spoticon" href="/"><img src="/img/Spotify-US.png" width="40px" height="40px"/></a>
       </div>
 
       <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
         <input class="search hidden-xs" type="text" data-toggle="popover" data-placement="bottom" data-content="Search Tracks"/>
 
         <ul class="nav navbar-nav navbar-right">
+	  <li>
+	    <a href="#"><span class="fa fa-circle-o-notch fa-2x" id="loading" data-placement="bottom" title="Loading"></span></a>
+	  </li>
           <li>
-            <a id="playlists-link" href="#"><span class="glyphicon glyphicon glyphicon-th-list" data-toggle="tooltip" data-placement="bottom" title="Playlists"></span></a>
+            <a id="playlists-link" href="#"><span class="fa fa-list fa-2x" data-toggle="tooltip" data-placement="bottom" title="Playlists"></span></a>
           </li>
           <li>
-            <a id="nowPlaying-link" href="#"><span class="glyphicon glyphicon glyphicon-play" data-toggle="tooltip" data-placement="bottom" title="Now Playing"></span></a>
+            <a id="nowPlaying-link" href="#"><span class="fa fa-play fa-2x" data-toggle="tooltip" data-placement="bottom" title="Now Playing"></span></a>
           </li>
           <li class="dropdown">
-            <a id="settings-link" href="#" data-toggle="dropdown"><span class="glyphicon glyphicon glyphicon-cog"></span></a>
+            <a id="settings-link" href="#" data-toggle="dropdown"><span class="fa fa-cog fa-2x"></span></a>
             <ul class="dropdown-menu">
               <li role="presentation" class="dropdown-header">Options</li>
               <li><a href="/spotify-server/logout">Logout</a></li>
@@ -147,11 +152,11 @@
       </div>
       <span id="duration"></span>
       <br style="clear: both"/>
-      <div class="audioControlsWrapper" style="text-align: center">
-        <span id="previousTrack" class="glyphicon glyphicon glyphicon-fast-backward"></span>
-        <span id="playAudio" class="glyphicon glyphicon glyphicon-play"></span>
-        <span id="pauseAudio" class="glyphicon glyphicon glyphicon-pause"></span>
-        <span id="nextTrack" class="glyphicon glyphicon glyphicon-fast-forward"></span>
+      <div class="audioControlsWrapper">
+        <i id="previousTrack" class="fa fa-backward fa-3x"></i>
+        <i id="playAudio" class="fa fa-play fa-3x"></i>
+        <i id="pauseAudio" class="fa fa-pause fa-3x"></i>
+        <i id="nextTrack" class="fa fa-forward fa-3x"></i>
       </div>
     </div>
   </script>
@@ -182,8 +187,6 @@
 
   <audio id="audioPlayer" autoplay='autoplay'></audio>
 
-  <div class="modal fade">
-    <span id="searching_spinner_center" style="position: absolute; display: block; top: 40%; left: 45%;">Loading...</span>
   </div>
 </body>
 </html>
